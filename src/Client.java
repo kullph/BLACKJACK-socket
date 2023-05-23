@@ -3,20 +3,25 @@ import java.net.*;
 
 public class Client {
     public static void main(String[] args) throws IOException {
-        String hostName = "localhost";
-        int portNumber = 10000;
+        String host = "localhost";
+        int lobby = 10000;
 
-        Socket socket = new Socket(hostName, portNumber);
-        System.out.println("Connected to server " + hostName + ":" + portNumber);
+        Socket socket = new Socket(host, lobby);
+        System.out.println("Connected to server " + host + ":" + lobby);
 
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 
         BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
         String userInput;
-        while ((userInput = stdIn.readLine()) != null) {
+
+        while (true) {
+            userInput = stdIn.readLine();
+            if (userInput.equals("exit")) {
+                break;
+            }
             out.println(userInput);
-            System.out.println("Server says: " + in.readLine());
+            System.out.println(in.readLine());
         }
 
         in.close();
